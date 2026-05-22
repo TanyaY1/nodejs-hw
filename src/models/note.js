@@ -8,15 +8,23 @@ const noteSchema = new Schema(
       required: true,
       trim: true,
     },
+
     content: {
       type: String,
       default: '',
       trim: true,
     },
+
     tag: {
       type: String,
       enum: TAGS,
       default: 'Todo',
+    },
+
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
     },
   },
   {
@@ -25,7 +33,8 @@ const noteSchema = new Schema(
   },
 );
 
-noteSchema.index({ tag: 1 });
+noteSchema.index({ userId: 1, tag: 1 });
+
 noteSchema.index({ title: 'text', content: 'text' });
 
 export const Note = model('Note', noteSchema);
